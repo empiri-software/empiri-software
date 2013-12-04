@@ -33,8 +33,15 @@ https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/
 	angular-touch.min.js.map
 
 
-http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/
 
+
+http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/
+http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/
+    jquery.js
+    jquery.min.js
+    jquery.min.map
+
+http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/
 	AUTHORS.txt f47bccae9c4d26019bfad575b1838093
 	MIT-LICENSE.txt 54ab1578b1fe12a7dcae71b4c14ee4a8
 	i18n/jquery-ui-i18n.js 859461a8f65ccb18b75304e0948f4095
