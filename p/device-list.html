@@ -7,9 +7,13 @@
     <h3>Select a device to launch this activity</h3>
     <hr>
     <div class="list-group">
-        <a href="#" class="list-group-item" ng-repeat="receiver in receiverList" class="device repeated-item" ng-click="selectReceiver(receiver)">
-            <img ng-src="{{getImageUrl(receiver)}}">
-            {{receiver.name}}
+        <a href
+           class="list-group-item"
+           ng-repeat="receiver in receiverList"
+           class="device repeated-item"
+           ng-click="selectReceiver(receiver)">
+
+            <img ng-src="{{getImageUrl(receiver)}}">{{receiver.name}}
         </a>
     </div>
 

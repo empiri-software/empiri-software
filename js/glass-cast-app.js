@@ -1,7 +1,6 @@
 /**
  * Created by christopherlyth on 12/3/13.
  */
-
 "use strict";
 var glassCast = angular.module('glass-cast', ['ngRoute', 'controllers'])
     .value('appId', '7a73a29f-3234-4c26-a9f9-22fa2f4da5dc_2')
