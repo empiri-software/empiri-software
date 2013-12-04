@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html ng-app data-cast-api-enabled="true">
+
+<head>
+    <title>Sender - GlassCast</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <span ng-controller="GlassCastAppCtrl">
+        <h3>Select a device to launch this activity</h3>
+        <hr>
+        <div ng-repeat="receiver in receiverList" ng-click="selectReceiver(receiver)" class="device">{{receiver.name}}</div>
+        <h4>{{$parent.errorMessage}}</h4>
+    </span>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.js"></script>
+    <script src="/js/controllers.js"></script>
+</body>
+
+</html>
