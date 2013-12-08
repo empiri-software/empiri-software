@@ -1,10 +1,25 @@
-angular.module('controllers', [])
+"use strict";
+angular.module('cast.controllers', [])
+    .controller('CastCtrl', function CastScanCtrl($scope){
+        // $location.path('/someNewPath').replace();
+
+    })
+    .controller('CastScanCtrl', function CastScanCtrl($scope, castApi){
+        // $location.path('/someNewPath').replace();
+        console.log('castApi:', castApi);
+    })
+    .controller('CastListCtrl', function CastListCtrl($scope, castApi){
+        console.log('castApi:', castApi);
+    })
+    .controller('CastLaunchCtrl', function CastLaunchCtrl($scope, castApi){
+        console.log('castApi:', castApi);
+    })
     .controller('GlassCastAppCtrl', function GlassCastAppCtrl($scope, appId, receiverList, deviceIcon){
-        "use strict";
         $scope.castApi = null;
-        $scope.receiverList = receiverList;
+        $scope.receiverList = [];
         $scope.castApiDetected = false;
         $scope.receiversDetected = false;
+
         $scope.onWindowMessage = function (event) {
             if (event.source == window && event.data &&
                 event.data.source && event.data.source == cast.NAME &&
@@ -34,6 +49,23 @@ angular.module('controllers', [])
         $scope.selectReceiver = function (receiver) {
             $scope.castApi.logMessage('Selected receiver: ' + receiver.name);
             console.log('Selected receiver:', receiver);
+
+            if ($scope.activityId) {
+                $scope.stopActivity();
+            }
+
+            $scope.errorMessage = null;
+            $scope.activityStatus = null;
+            $scope.mediaStatus = null;
+
+            var resultCallback = $scope.getResultCallback('launchActivity');
+
+            var request = new cast.LaunchRequest($scope.appName, receiver);
+            if ($scope.launchParameters) {
+                request.parameters = $scope.launchParameters;
+            }
+            $scope.castApi.launch(request, resultCallback);
+
         };
 
         // Detect API and initialize when available.

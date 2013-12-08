@@ -10,24 +10,42 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.css" media="screen">
+    <!--
+    ../css/bootstrap.css
+    ../css/bootswatch.min.css
+    -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.css">
-
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <div ng-view></div>
+    <div class="page-header">
+        <span class="label label-danger pull-right">beta</span>
+        <h1>
+            <span>GlassCast</span>
+            <small>glassware + chromecast</small>
+        </h1>
+    </div>
+    <div ui-view>
+        <div class="text-center alert alert-danger">Error loading API</div>
+    </div>
     <h4>{{$parent.errorMessage}}</h4>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-route.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-animate.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-cookies.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-sanitize.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-touch.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.js"></script>
+    <!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-route.js"></script>-->
+    <!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-animate.js"></script>-->
+    <!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-cookies.js"></script>-->
+    <!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-sanitize.js"></script>-->
+    <!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-touch.js"></script>-->
+    <script src="../js/angular-ui-router.js"></script>
 
+    <script src="../js/CastControllers.js"></script>
+    <script src="../js/CastDirectives.js"></script>
+    <script src="../js/CastFilters.js"></script>
+    <script src="../js/CastProviders.js"></script>
+    <script src="../js/CastServices.js"></script>
     <script src="../js/glass-cast-app.js"></script>
-    <script src="../js/controllers.js"></script>
 </body>
 </html>
