@@ -2,18 +2,14 @@
 angular.module('cast.controllers', [])
 
     .controller('CastCtrl', [
-        '$scope','cast', '$log', 'appId',
-        function CastCtrl($scope, cast, $log, appId){
-            $log.debug("cast", cast);
+        '$scope','cast', '$log', 'appId','$state',
+        function CastCtrl($scope, cast, $log, appId, $state){
             $scope.castApi = new cast.Api();
             $scope.onReceiverList = function(list) {
-                $log.debug('recList', list);
-                // If the list is non-empty, show a widget with
-                // the friendly names of receivers.
-                // When a receiver is picked, invoke doLaunch with the receiver.
+                $scope.receiverList = list;
+                $state.go('cast.list');
             };
             $scope.castApi.addReceiverListener(appId, $scope.onReceiverList);
-
             // $location.path('/someNewPath').replace();
             $scope.checked = true;
         }
@@ -28,7 +24,7 @@ angular.module('cast.controllers', [])
         $scope.progressMessage = 'No chromecasts found..';
     })
     .controller('CastListCtrl', function CastListCtrl($scope){
-//        console.log('castApi:', castApi);
+        $scope.$emit('stateMessage', 'select a device');
     })
     .controller('CastLaunchCtrl', function CastLaunchCtrl($scope){
 //        console.log('castApi:', castApi);

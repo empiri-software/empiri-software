@@ -44,7 +44,8 @@ var glassCast = angular.module('glass-cast', [
             })
             .state('cast.list', {
                 url: "/list",
-                templateUrl: "partials/cast-list.html"
+                templateUrl: "partials/cast-list.html",
+                controller: "CastListCtrl"
             })
             .state('cast.launch', {
                 url: "/launch",
