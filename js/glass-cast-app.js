@@ -14,32 +14,21 @@ var glassCast = angular.module('glass-cast', [
             .state('cast', {
                 abstract: true,
                 resolve: {
-                    castApi: ['$window','$q', '$interval', '$log',
+                    cast: ['$window','$q', '$interval', '$log',
                         function($window, $q, $interval, $log){
                             var deferred = $q.defer();
-                            var p = $interval(function(){
-                                return $window.cast;
-                            }, 500, 4);
-                            p.then(
-                                null,
-                                function handleError(err){
-                                    if (err!=='canceled') {
-                                        $log.error('p.error', arguments);
-                                    }
-                                },
-                                function handleNotification(update) {
-                                    if ($window.cast) {
-                                        $interval.cancel(p);
-                                    }
-                                    return update;
-                                }
-                            ).finally(function(){
-                                    if ($window.cast) {
+
+                            if ($window.cast && $window.cast.isAvailable) {
+                                deferred.resolve($window.cast);
+                            } else {
+                                $window.addEventListener("message", function(event) {
+                                    if (event.source == window && event.data &&
+                                        event.data.source == "CastApi" &&
+                                        event.data.event == "Hello"){
                                         deferred.resolve($window.cast);
-                                    } else {
-                                        deferred.reject(err);
                                     }
                                 });
+                            };
                             return deferred.promise;
                         }
                     ]

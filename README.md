@@ -898,3 +898,27 @@ Show when checked:
     </span>
 
 <p ng-if="statusMessage" class="animate-if text-muted text-center" ng-cloak >{{ statusMessage }}</p>
+
+//                            var p = $interval(function(){
+//                                return $window.cast;
+//                            }, 500, 4);
+//                            p.then(
+//                                null,
+//                                function handleError(err){
+//                                    if (err!=='canceled') {
+//                                        $log.error('p.error', arguments);
+//                                    }
+//                                },
+//                                function handleNotification(update) {
+//                                    if ($window.cast) {
+//                                        $interval.cancel(p);
+//                                    }
+//                                    return update;
+//                                }
+//                            ).finally(function(){
+//                                    if ($window.cast) {
+//                                        deferred.resolve($window.cast);
+//                                    } else {
+//                                        deferred.reject(err);
+//                                    }
+//                                });
