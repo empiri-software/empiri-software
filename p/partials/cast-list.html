@@ -8,9 +8,8 @@
 <hr>
 <div class="list-group">
     <a href
-       class="list-group-item"
        ng-repeat="receiver in receiverList"
-       class="device repeated-item"
+       class="list-group-item device repeated-item"
        ng-click="selectReceiver(receiver)">
 
         <img ng-src="{{getImageUrl(receiver)}}">{{receiver.name}}

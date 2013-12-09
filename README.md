@@ -703,3 +703,198 @@ http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/
 	ui/jquery.ui.tooltip.min.js 4fbdb31340b01c249a0fe5112e0eeec9
 	ui/jquery.ui.widget.js bddbabe47387bcd9fbf0a764c8d715ed
 	ui/jquery.ui.widget.min.js 2425a542e6dde093dd85ac0b5adc0141
+
+
+
+    <!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-route.js"></script>-->
+    <!---->
+    <!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-cookies.js"></script>-->
+    <!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-sanitize.js"></script>-->
+    <!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-touch.js"></script>-->
+    <!--
+    ../css/bootstrap.css
+    ../css/bootswatch.min.css
+    -->
+
+    .factory('castApi', [
+        '$window','$q','$interval', '$log',
+        function($window, $q, $interval, $log){
+
+        var p = $interval(function(){
+                return $window.cast;
+            }, 10, 0),
+        tryHandle = function(){
+            if ($window.cast) {
+                return $window.cast;
+            } else {
+                return $q.reject(err);
+            }
+        };
+        var err = 'Unable to find the cast api, check "Google Cast extension options" -> "Developer Settings" -> "Cast SDK additional domains"';
+        return p.then(null, null, function(update) {
+            if ($window.cast) {
+                $interval.cancel(p);
+            }
+            return update;
+        })
+        .finally(tryHandle);
+
+//        return deferred.promise;
+    }]);
+
+
+
+
+
+var castResolver = {
+            castApi: function($q, $timeout, $window, $log){
+                var deferred = $q.defer();
+                deferred.promise.then(function(cast) {
+                    $log.info('castApi.isAvailable: ', cast.isAvailable);
+                    return cast;
+                }, function(reason) {
+                    $log.error(reason);
+                }, function(update) {
+                    $log.debug(update);
+                });
+                if ($window.cast) {
+                    deferred.resolve($window.cast);
+                } else {
+                    deferred.notify('cast api was NOT found on window load, checking again in one second');
+                    $timeout(function() {
+                        if ($window.cast) {
+                            deferred.resolve($window.cast);
+                        } else {
+                            deferred.reject('Unable to find the cast api, check "Google Cast extension options" -> "Developer Settings" -> "Cast SDK additional domains"');
+                        }
+                    }, 1000);
+                }
+                return deferred.promise;
+            }
+        };
+
+    .controller('GlassCastAppCtrl', function GlassCastAppCtrl($scope, appId, receiverList, deviceIcon){
+        $scope.castApi = null;
+        $scope.receiverList = [];
+        $scope.castApiDetected = false;
+        $scope.receiversDetected = false;
+
+        $scope.onWindowMessage = function (event) {
+            if (event.source == window && event.data &&
+                event.data.source && event.data.source == cast.NAME &&
+                event.data.event && event.data.event == 'Hello') {
+                $scope.initializeApi();
+            }
+        };
+        $scope.getImageUrl = function (receiver) {
+            return deviceIcon;
+        };
+        $scope.initializeApi = function () {
+            if (!$scope.castApi) {
+                $scope.castApi = new cast.Api();
+                $scope.castApi.logMessage('Cast API initialized.');
+                $scope.castApi.addReceiverListener(appId, $scope.onReceiverUpdate);
+                $scope.castApiDetected = true;
+                $scope.$apply();
+            }
+        };
+        $scope.onReceiverUpdate = function (receivers) {
+            $scope.castApi.logMessage('Got receiver list.');
+            console.log('Got receiver list.', receivers);
+            $scope.receiverList = receivers;
+            $scope.receiversDetected = receivers.length > 0 ? true : false;
+            $scope.$apply();
+        };
+        $scope.selectReceiver = function (receiver) {
+            $scope.castApi.logMessage('Selected receiver: ' + receiver.name);
+            console.log('Selected receiver:', receiver);
+
+            if ($scope.activityId) {
+                $scope.stopActivity();
+            }
+
+            $scope.errorMessage = null;
+            $scope.activityStatus = null;
+            $scope.mediaStatus = null;
+
+            var resultCallback = $scope.getResultCallback('launchActivity');
+
+            var request = new cast.LaunchRequest($scope.appName, receiver);
+            if ($scope.launchParameters) {
+                request.parameters = $scope.launchParameters;
+            }
+            $scope.castApi.launch(request, resultCallback);
+
+        };
+
+        // Detect API and initialize when available.
+        if (window.cast != undefined && cast.isAvailable) {
+            $scope.initializeApi();
+        } else {
+            window.addEventListener('message', $scope.onWindowMessage, false);
+        }
+    })
+
+
+
+        var castResolver = {
+            castApi: function($q, $timeout, $window){
+                var deferred = $q.defer();
+                $timeout(function() {
+                    deferred.resolve($window.cast);
+                }, 1000);
+
+//                if ($window.cast != undefined && $window.cast.isAvailable) {
+//                    deferred.resolve($window.cast);
+//                } else {
+//                    $window.addEventListener('message', function(event){
+//                        if (event.source == window && event.data &&
+//                            event.data.source && event.data.source == cast.NAME &&
+//                            event.data.event && event.data.event == 'Hello') {
+//                            deferred.resolve($window.cast);
+//                        }
+//                    }, false);
+//                }
+                return deferred.promise;
+            }
+        };
+ng-init="checked=true"
+
+
+
+    .factory('receiverList', function(){
+        return [{
+            id: "uuid:MOCKjSIWNhuOja-4GvlSCR2Fyag.",
+            name: "Mock Chromecast",
+            ipAddress: "192.168.0.99",
+            isTabProjected: null
+        }];
+    })
+
+
+//            resolver = function(){
+//                if ($window.cast) {
+//                    this.resolve($window.cast);
+//                    $interval.cancel(p);
+//                } else {
+//                    this.reject('Unable to find the cast api, check "Google Cast extension options" -> "Developer Settings" -> "Cast SDK additional domains"');
+//                }
+//            };
+
+//        deferred.promise.then(function(result) {
+//            $interval.cancel(p);
+//        }, function(reason) {
+//            $interval.cancel(p);
+//        });
+//        resolver.bind(deferred)
+//        var deferred = $q.defer();
+
+
+
+Click me: <input type="checkbox" ng-model="checked"  /><br/>
+Show when checked:
+    <span ng-if="checked" class="animate-if">
+      I'm removed when the checkbox is unchecked.
+    </span>
+
+<p ng-if="statusMessage" class="animate-if text-muted text-center" ng-cloak >{{ statusMessage }}</p>

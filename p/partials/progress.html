@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div class="progress progress-striped" ng-class="{active: active}">
+    <div class="progress-bar" role="progressbar"
+         ng-class="{'info': 'progress-bar-info', 'success': 'progress-bar-success', 'warning': 'progress-bar-warning', 'danger': 'progress-bar-danger'}[level]"
+         aria-valuenow="{{aria.now || 100}}" aria-valuemin="{{aria.min || 0}}" aria-valuemax="{{aria.max || 100}}"
+         ng-init="barWidth = ((aria.now - aria.min)/(aria.max - aria.min))* 100"
+         ng-style="{width: '{{barWidth}}%'}">
+        <span class="sr-only">{{progressMessage | number:0 }}</span>
+    </div>
+</div>
+
+</body>
+</html>
