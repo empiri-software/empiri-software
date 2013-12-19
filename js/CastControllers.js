@@ -15,7 +15,7 @@ angular.module('cast.controllers', [])
         }
     ])
     .controller('CastScanCtrl', function CastScanCtrl($scope){
-        $scope.$emit('stateMessage', 'waiting for devices');
+        $scope.$emit('stateMessage', 'waiting for device list');
         $scope.active = true;
 //        $scope.level = 'warning';
         $scope.aria = {
@@ -24,7 +24,14 @@ angular.module('cast.controllers', [])
         $scope.progressMessage = 'No chromecasts found..';
     })
     .controller('CastListCtrl', function CastListCtrl($scope){
-        $scope.$emit('stateMessage', 'select a device');
+
+        $scope.$watch('receiverList', function() {
+            if ($scope.receiverList && $scope.receiverList.length > 0) {
+                $scope.$emit('stateMessage', 'Select a chromecast device');
+            } else {
+                $scope.$emit('stateMessage', 'Unable to find a chromecast device');
+            }
+        }); // initialize the watch
     })
     .controller('CastLaunchCtrl', function CastLaunchCtrl($scope){
 //        console.log('castApi:', castApi);
@@ -33,5 +40,5 @@ angular.module('cast.controllers', [])
         $scope.$on('stateMessage', function(evt, msg) {
             $scope.stateMessage = msg;
         });
-        $scope.$emit('stateMessage', 'Waiting for cast api...');
+        $scope.$emit('stateMessage', 'Cast api not found...');
     });
